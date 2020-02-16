@@ -28,16 +28,20 @@ class AccountViewSet(mixins.ListModelMixin,
         Return a given account.
     """
     model = models.Account
-    # serializer_class = serializers.AccountSerializer
+    serializer_class = serializers.AccountSerializer
     queryset = models.Account.objects.all()
 
+    #def get_serializer_class(self):
+     #   serializer_class = serializers.AccountSerializer
+#
+ #       if self.action == 'update':
+  #          serializer_class=serializers.AccountSerializer_Per_Update
+   #         return serializer_class
+    #    return serializer_class
     def get_serializer_class(self):
-        serializer_class = serializers.AccountSerializer
-
         if self.action == 'update':
-            serializer_class=serializers.AccountSerializer_Per_Update
-            return serializer_class
-        return serializer_class
+            return serializers.AccountSerializer_Per_Update
+        return serializers.AccountSerializer    
     def update(self, request, pk):
         super().update(request, pk)
         account=self.get_object()
@@ -46,17 +50,12 @@ class AccountViewSet(mixins.ListModelMixin,
 
 @api_view(["GET"])
 def fizz_buzz(request):
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaa\n")
-    x=request.query_params.get('x',100)
-    #l={"x": 100, "fizzbuzz": f(int(x))}
+    x=int(request.query_params.get('x',100))
     l={"x": 100, "fizzbuzz": ''.join(str(e) for e in fizzbuzzSec(x))}
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    
-    #return response.Response(data=l)
     return response.Response(data=l, status=status.HTTP_200_OK)
 
 def fizzbuzzSec(x):
-    return [fizzbuzzN(n) for n in range(1,x)]
+    return [fizzbuzzN(n) for n in range(1,x+1)]
 
 def fizzbuzzN(n):
     r=n
@@ -70,17 +69,6 @@ def fizzbuzzN(n):
                 r="Buzz"
     return r
 
-def f(n):
-    s = ''
-    for i in range(1, n+1):
-        if i % 15 == 0:
-            s+= 'FizzBuzz'
-        elif i % 3 == 0:
-            s += 'Fizz'
-        elif i % 5 == 0:
-            s += 'Buzz'
-        else:
-            s += str(i)
-    return s 
+
 
 
