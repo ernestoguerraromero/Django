@@ -31,13 +31,7 @@ class AccountViewSet(mixins.ListModelMixin,
     serializer_class = serializers.AccountSerializer
     queryset = models.Account.objects.all()
 
-    #def get_serializer_class(self):
-     #   serializer_class = serializers.AccountSerializer
-#
- #       if self.action == 'update':
-  #          serializer_class=serializers.AccountSerializer_Per_Update
-   #         return serializer_class
-    #    return serializer_class
+
     def get_serializer_class(self):
         if self.action == 'update':
             return serializers.AccountSerializer_Per_Update
